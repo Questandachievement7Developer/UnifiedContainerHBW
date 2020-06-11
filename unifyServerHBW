@@ -1,6 +1,6 @@
 #!/bin/bash
 #!/bin/bash
-echo "Manager Update codename: Tracing the bulk"
+echo "Manager Update codename: Alien overworld"
 
 if [ ${diagnosticTrigger} == "1" ] && [ ! -z ${diagnosticTrigger} ]; then
 set -x
