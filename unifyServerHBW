@@ -2,38 +2,6 @@
 #!/bin/installgentoo
 echo "Manager Update codename: alien runtime"
 
-#if some assholes decided to not include which in the rootfs
-if [ ! -f /bin/which ] && [ ! -f /usr/bin/which ] && [ ! -f /sbin/which ]; then
-
-
-if [ -f /bin/busybox ]; then
-which(){
-busybox which
-}
-fi
-#but what if another asshole doesnt want to include busybox due to business reason?
-
-if [ -f /bin/toybox ]; then
-which(){
-toybox which
-}
-fi
-
-if [ -f /sbin/toybox ]; then
-which(){
-toybox which
-}
-fi
-
-if [ -f /sbin/busybox ]; then
-which(){
-busybox which
-}
-
-fi
-fi
-
-
 
 if [ ${diagnosticTrigger} == "1" ] && [ ! -z ${diagnosticTrigger} ]; then
 set -x
@@ -75,6 +43,60 @@ stub=()
 }
 fi
 
+### Which Drama resolve
+
+#if some assholes decided to not include which in the rootfs
+if [ ! -f /bin/which ] && [ ! -f /usr/bin/which ] && [ ! -f /sbin/which ]; then
+
+
+if [ -f /bin/busybox ]; then
+which(){
+busybox which
+}
+fi
+#but what if another asshole doesnt want to include busybox due to business reason?
+
+if [ -f /bin/toybox ]; then
+which(){
+toybox which
+}
+fi
+
+if [ -f /sbin/toybox ]; then
+which(){
+toybox which
+}
+fi
+
+if [ -f /sbin/busybox ]; then
+which(){
+busybox which
+}
+
+fi
+fi
+
+### useradd or adduser?
+if [ -z $(which useradd) ]; then
+if [ -z $(which adduser) ]; then
+useradd(){
+busybox adduser $@
+}
+else
+useradd(){
+adduser $@
+}
+else
+echo "No useradd patch needed"
+fi
+fi
+
+
+
+###if unifyServer was run using root then use UnifyServer user to drop previledges 
+if [ $(whoami) == "root" ]; then
+useradd UnifyServer < /dev/null
+fi
 
 #############################################################################
 
@@ -1788,7 +1810,7 @@ com="\$@"
 echo a > boot
 ###LAUNCH
 if [ ${currentuser} == "root" ]; then
-su -c "\$com" nobody
+su -c "\$com" UnifyServer
 else
 \$com
 fi
