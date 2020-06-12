@@ -96,7 +96,8 @@ fi
 
 ###if unifyServer was run using root then use UnifyServer user to drop previledges 
 if [ $(whoami) == "root" ]; then
-useradd UnifyServer < /dev/null
+echo "${pbadge} Please run it without root"
+exit
 fi
 
 #############################################################################
