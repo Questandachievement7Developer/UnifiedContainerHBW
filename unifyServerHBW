@@ -1811,9 +1811,10 @@ com="\$@"
 echo a > boot
 ###LAUNCH
 if [ "\${currentuser}" == "root" ]; then
+env
 echo "bootloader detected using \${currentuser} access"
 echo "attempting to drop previledges"
-su -c "\$com" UnifyServer
+su -c "env ; \$com" UnifyServer
 else
 echo "normal \${currentuser}"
 \$com
