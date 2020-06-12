@@ -1810,12 +1810,12 @@ echo "THE CURRENT PATH \$(pwd)"
 com="\$@"
 echo a > boot
 ###LAUNCH
-if [ "${currentuser}" == "root" ]; then
-echo "bootloader detected using ${currentuser} access"
+if [ "\${currentuser}" == "root" ]; then
+echo "bootloader detected using \${currentuser} access"
 echo "attempting to drop previledges"
 su -c "\$com" UnifyServer
 else
-echo "normal"
+echo "normal \${currentuser}"
 \$com
 fi
 
