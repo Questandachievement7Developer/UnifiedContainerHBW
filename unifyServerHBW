@@ -17,11 +17,13 @@ if [ -f /bin/toybox ]; then
 which(){
 toybox which
 }
+fi
 
 if [ -f /sbin/toybox ]; then
 which(){
 toybox which
 }
+fi
 
 if [ -f /sbin/busybox ]; then
 which(){
