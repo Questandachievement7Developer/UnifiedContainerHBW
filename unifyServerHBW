@@ -1595,7 +1595,7 @@ fi
     echo "${packmanager} ${installParameter} ${i}" >> ${TMPFolder}/SUINSTALL
   done
 # This installation scheme were changed due to the fact old SU request created a unresolvable and wierd bug like Missing (Expected fi) from intrepretation
-if [ ${packmanager} != "pkg" ] && [ -z ${rootRequested} ]; then
+if [ ${packmanager} != "pkg" ] && [ -z ${rootRequested} ] && [ ${iSHenv} == "0" ]; then
 sudo bash ${TMPFolder}/SUINSTALL
 else
 bash ${TMPFolder}/SUINSTALL
