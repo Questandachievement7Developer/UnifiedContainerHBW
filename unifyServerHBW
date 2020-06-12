@@ -1757,7 +1757,7 @@ unset LD_PRELOAD
 
 
 cd ${folder}
-
+export currentuser=\$(whoami)
 ##########SHELLENV INITIALIZATION################
 if [ -z \${PS1} ]; then
 export PS1="unifyServer console > "
@@ -1787,8 +1787,11 @@ echo "THE CURRENT PATH \$(pwd)"
 com="\$@"
 echo a > boot
 ###LAUNCH
+if [ ${currentuser} == "root" ]; then
+su -c "\$com" nobody
+else
 \$com
-
+fi
 
 
 
