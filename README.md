@@ -72,6 +72,7 @@ you can clone it and modify to get started quickly
 | ASROCK Desktop Manjaro (x86_64) | Unknown |
 | Apple iPhone X 10,3 (aarch64 iSH x86) | Unknown |
 | macOS 10.5 Catalina (x86_64) | Unknown |
+| macOS 10.5.x Catalina (arm64) | Unknown |
 
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
 Feel free to contact to these: <br>
