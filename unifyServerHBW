@@ -18,6 +18,16 @@ which(){
 toybox which
 }
 
+if [ -f /sbin/toybox ]; then
+which(){
+toybox which
+}
+
+if [ -f /sbin/busybox ]; then
+which(){
+busybox which
+}
+
 fi
 fi
 
