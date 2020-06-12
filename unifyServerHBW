@@ -1492,7 +1492,7 @@ export linktosymlinkActivated=0
 export arch=$(uname -m)
 if [ ! -z $(which apk) ]; then
   echo "Alpine Distro"
-  export packmanager=apk
+  export packmanager="apk"
   export installParameter="add"
   export distro="alpine"
 fi
@@ -1540,6 +1540,9 @@ fi
       export BLINDBOOT="1"
       export ptracecompat='0'
       export WSLenv="0"
+      export packmanager="apk"
+      export installParameter="add"
+      export distro="alpine"
     fi
 
     if [ ! -z $(which pacman) ]; then
