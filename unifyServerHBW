@@ -3,7 +3,7 @@
 echo "Manager Update codename: alien runtime"
 
 #if some assholes decided to not include which in the rootfs
-if [ ! -f /bin/which ]; then
+if [ ! -f /bin/which ] && [ ! -f /usr/bin/which ] && [ ! -f /sbin/which ]; then
 
 
 if [ -f /bin/busybox ]; then
