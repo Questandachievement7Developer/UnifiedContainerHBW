@@ -1798,6 +1798,8 @@ export ROOT=\$(pwd)
 export CPPFLAGS="-I\$(pwd)/opt/isl@0.18/include"
 export HOMEBREW_MAKE_JOBS="32"
 export prevPATH=\${PATH}
+##store Parameters in a single variable
+export currentParam="$(env)"
 if [ \${initsetup} == '1' ]  && [ ! -z \${initsetup} ]; then
 export PATH=\${PATH}:\$(pwd)/bin
 else
@@ -1814,7 +1816,7 @@ if [ "\${currentuser}" == "root" ]; then
 env
 echo "bootloader detected using \${currentuser} access"
 echo "attempting to drop previledges"
-su -c "env ; \$com" UnifyServer
+su -c "${currentParam} ; \$com" UnifyServer
 else
 echo "normal \${currentuser}"
 \$com
