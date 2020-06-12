@@ -43,8 +43,8 @@ fi
 if [ ${DEVELENV} == "1" ] && [ ! -z ${DEVELENV} ]; then
 echo DEBUG PARAM CHECK ${PrimaryParam} ${SecondaryParam}
 fi
-export managerGitlink="https://github.com/Questandachievement7Developer/UnifiedContainer"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/ProgramData/chocolatey/bin"
+export managerGitlink="https://github.com/Questandachievement7Developer/UnifiedContainerHBW"
+export PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/ProgramData/chocolatey/bin"
 #proot Seccomp Acceleration SEGFAULT CRASHES FIX SIGNAL 11 TERMINATION
 export PROOT_NO_SECCOMP=1
 export newInstall=0
