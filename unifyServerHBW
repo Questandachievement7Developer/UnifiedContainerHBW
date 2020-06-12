@@ -1838,6 +1838,17 @@ done
 EOM
 chmod +x ${folder}/bin/pacman
 
+pacmanfix=${folder}/bin/pkg
+cat > "$pacmanfix" <<- EOM
+#!/bin/sh
+echo "Emulated pkg revision 3"
+for a in \$@; do
+brew install "\${a}"
+done
+EOM
+chmod +x ${folder}/bin/pkg
+
+
 ###
 echo "${pbadge} 🧳 Doing some initial Setup"
 export initsetup=1
