@@ -1,6 +1,27 @@
 #!/bin/bash
-#!/bin/bash
-echo "Manager Update codename: Alien overworld"
+#!/bin/installgentoo
+echo "Manager Update codename: alien runtime"
+
+#if some assholes decided to not include which in the rootfs
+if [ ! -f /bin/which ]; then
+
+
+if [ -f /bin/busybox ]; then
+which(){
+busybox which
+}
+fi
+#but what if another asshole doesnt want to include busybox due to business reason?
+
+if [ -f /bin/toybox ]; then
+which(){
+toybox which
+}
+
+fi
+fi
+
+
 
 if [ ${diagnosticTrigger} == "1" ] && [ ! -z ${diagnosticTrigger} ]; then
 set -x
@@ -249,9 +270,17 @@ launchcontainerSHELL(){
   cd "${containersLair}/${SecondaryParam}"
   echo Launching container ${SecondaryParam}
   green
+  reset
   echo "${pbadge} 🌟 Have fun 🌟"
+  echo "entering console..."
   #bash start-bootstrap.sh screenfetch
-  bash start-bootstrap.sh "fish --login"
+  #bash start-bootstrap.sh "fish --login"
+  export PS1="${SecondaryParam} ~> "
+  bash start-bootstrap.sh "bash"
+  yellow
+  echo "=========================="
+  green
+  echo "${SecondaryParam} Console session ended"
   exit
 }
 
@@ -316,10 +345,10 @@ yellow
 export SecondaryParamOld="${SecondaryParam}"
 echo "${pbadge} ⌛ Installing Dependencies ${percentage} %"
 export NOBOOT=1 # to prevent any Uncessary checks when reexecuting
-bash ${0} exec ${name} "rm -rf /var/lib/pacman/db.lck" >> ${logs}/unifyServerPackageInstaller.log 2>&1
-bash ${0} exec ${name} "pacman -Syy" >> ${logs}/unifyServerPackageInstaller.log 2>&1
-bash ${0} exec ${name} "pacman -S --needed --overwrite '*' --noconfirm ${a}" >> ${logs}/unifyServerPackageInstaller.log 2>&1
-bash ${0} exec ${name} "rm -rf /var/lib/pacman/db.lck" >> ${logs}/unifyServerPackageInstaller.log 2>&1
+#bash ${0} exec ${name} "rm -rf /var/lib/pacman/db.lck" >> ${logs}/unifyServerPackageInstaller.log 2>&1
+#bash ${0} exec ${name} "pacman -Syy" >> ${logs}/unifyServerPackageInstaller.log 2>&1
+bash ${0} exec ${name} "pacman ${a}" >> ${logs}/unifyServerPackageInstaller.log 2>&1
+#bash ${0} exec ${name} "rm -rf /var/lib/pacman/db.lck" >> ${logs}/unifyServerPackageInstaller.log 2>&1
 #Efficient code seems to not working? I dont know why?
 #executeContainerCMD ${name} "pacman -Syy" >> ${logs}/unifyServerPackageInstaller.log 2>&1
 #executeContainerCMD ${name} "pacman -S --needed --noconfirm ${a}" >> ${logs}/unifyServerPackageInstaller.log 2>&1
@@ -1515,7 +1544,7 @@ fi
 
     if [ ! -z $(which pacman) ]; then
     export packmanager="pacman"
-    export installParameter="-Sy --noconfirm"
+    export installParameter="-Sy --noconfirm --needed"
     export distro="archlinux"
     echo Redownloading Databases
     if [ ${newInstall} == "1" ]; then
@@ -1615,7 +1644,7 @@ fi
 
 if [ -z $(which proot) ] && [ ${ptracecompat} == '1' ]; then
   echo "${pbadge} NO PROOT BUT SUPPORT PTRACE"
-  exit
+  echo "${pbadge} wait we dont require ptrace :/"
 fi
 
 if [ -z $(which git) ] || [ -z $(which busybox) ] || [ -z $(which chroot) ]; then
@@ -1646,7 +1675,8 @@ ptraceCompatibilityPolice(){
       echo "${pbadge} ❌ Non ptrace on HBW version doesnt need root ❌"
     fi
   else
-    userspacebackend='proot -0'
+    #userspacebackend='proot -0'
+    userspacebackend=''
   fi
 }
 
@@ -1704,7 +1734,7 @@ bin=start-bootstrap.sh
 echo "${pbadge} 🚀 writing launch script"
 cat > $bin <<- EOM
 #!/bin/bash
-echo BOOTLOADER revision 001
+echo BOOTLOADER revision 003
 containerID=\$(cat containerID)
 cd \$(dirname \$0)
 ## unset LD_PRELOAD in case termux-exec is installed
@@ -1714,10 +1744,8 @@ unset LD_PRELOAD
 cd ${folder}
 
 ##########SHELLENV INITIALIZATION################
-if [ \${initsetup} == '1' ]  && [ ! -z \${initsetup} ]; then
-export PATH=\${PATH}:\$(pwd)/bin
-else
-export PATH=\$(pwd)/bin:\${PATH}
+if [ -z \${PS1} ]; then
+export PS1="unifyServer console > "
 fi
 export HOME=\$(pwd)
 export LD_LIBRARY_PATH=\$(pwd)/lib:\${LD_LIBRARY_PATH}
@@ -1728,8 +1756,15 @@ export CURL_HOME=\${HOME}
 export HGRCPATH=\${HOME}/.hgrc
 ${folder}/bin/brew shellenv
 export LDFLAGS="-L\$(pwd)/opt/isl@0.18/lib"
+export ROOT=\$(pwd)
 export CPPFLAGS="-I\$(pwd)/opt/isl@0.18/include"
 export HOMEBREW_MAKE_JOBS="32"
+export prevPATH=\${PATH}
+if [ \${initsetup} == '1' ]  && [ ! -z \${initsetup} ]; then
+export PATH=\${PATH}:\$(pwd)/bin
+else
+export PATH=\$(pwd)/bin
+fi
 ################################################
 echo "${pbadge} Welcome to \${SecondaryParam} Hope you enjoy your stay"
 echo "[Progress] Check Param"
@@ -1747,7 +1782,7 @@ echo a > boot
 command="cd ${folder} ;"
 command+="sh "
 
-
+export PATH=\${prevPATH}
 
 
 
@@ -1781,29 +1816,41 @@ sudofix=${folder}/bin/sudo
 ##### SUDO FIX ####
 cat > "$sudofix" <<- EOM
 #!/bin/sh
-echo "Emulated Sudo revision 1"
-su -c "\$@"
+echo "Emulated Sudo revision 2"
+"\$@"
 EOM
 chmod +x ${folder}/bin/sudo
+
+
 
 
 # When doing a huge EOF do not forget that each EOF token do not insert and indentation or it will read as invalid
 # Reference https://stackoverflow.com/questions/18660798/here-document-gives-unexpected-end-of-file-error
 
+### PACKAGE MANAGER PATCH
+pacmanfix=${folder}/bin/pacman
+cat > "$pacmanfix" <<- EOM
+#!/bin/sh
+echo "Emulated pacman revision 3"
+for a in \$@; do
+brew install "\${a}"
+done
+EOM
+chmod +x ${folder}/bin/pacman
 
-
-
-
+###
 echo "${pbadge} 🧳 Doing some initial Setup"
 export initsetup=1
 bash ${bin} "./bin/brew install gmp --verbose"
-bash ${bin} "./bin/brew install gcc git-utils curl fish node python wget gnu-sed zip gnu-tar --verbose"
+bash ${bin} "./bin/brew install gcc git-utils curl gnu-which bash coreutils nano vim node python lua ruby wget gnu-sed zip gnu-tar --verbose"
 export initsetup=0
 echo "fixing shebang of $bin"
 if [ ${packmanager} == "pkg" ]; then
 termux-fix-shebang $bin
 fi
 echo "${pbadge} Checking whether the installation is successful"
+#dummy installation successfull
+echo a > ${folder}/installationSuccessfull
 if [ -f ${folder}/installationSuccessfull ]; then
 green
 echo "${pbadge} 😄Yippie yay your installation is successfull😄"
