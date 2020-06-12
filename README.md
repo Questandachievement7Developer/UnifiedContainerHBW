@@ -30,12 +30,6 @@
 2. iSH ( iOS shell ) ( Under heavy testing )
 3. Darwin x86_64 (macOS) (UNTESTED!)
 
-### :camera: Tech demo screenshot
-> Using blender Container
-
-![Screenshot](Graphic_Material/TermuxTechDemo.jpg "termux")
-![Screenshot](Graphic_Material/ChromeTechDemo.jpg "chrome")
-
 
 
 ## :floppy_disk: How to install
@@ -68,13 +62,14 @@ you can clone it and modify to get started quickly
 
 | Device | Status | 
 | ------- | ------ | 
-| Samsung Galaxy Tab S2  (Termux) (armv7l) | Manager runs but pacman return 404 | 
-| Samsung Galaxy Note 8 (Termux) (aarch64) | Works really well |
-| Asus X505Z Windows 10 Ubuntu WSL (x86_64) (NOPTRACE) | Works and crashed the whole system ( Because its windows ) |
-| ASROCK DESKTOP Windows 10 Ubuntu WSL (x86_64) (NOPTRACE) | Works stable  |
-| Asus A442UR  Windows 10 Ubuntu 18.04 WSL (Ubuntu 18.04) (NOPTRACE)      |  Works but crashes the system randomly |
-| Samsung Galaxy A50 (aarch64) (Termux) | Works well |
-| ASROCK Desktop Manjaro (x86_64) | Works Well |
+| Samsung Galaxy Tab S2  (Termux) (armv7l) | Unknown | 
+| Samsung Galaxy Note 8 (Termux) (aarch64) | Unknown |
+| Asus X505Z Windows 10 Ubuntu WSL (x86_64) (NOPTRACE) | Unknown |
+| ASROCK DESKTOP Windows 10 Ubuntu WSL (x86_64) (NOPTRACE) | Unknown  |
+| Asus A442UR  Windows 10 Ubuntu 18.04 WSL (Ubuntu 18.04) (NOPTRACE)      | Unknown |
+| Samsung Galaxy A50 (aarch64) (Termux) | Unknown |
+| ASROCK Desktop Manjaro (x86_64) | Unknown |
+| Apple iPhone X 10,3 (aarch64 iSH x86) | Unknown |
 
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
 Feel free to contact to these: <br>
