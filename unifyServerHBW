@@ -86,10 +86,11 @@ else
 useradd(){
 adduser $@
 }
+fi
 else
 echo "No useradd patch needed"
 fi
-fi
+
 
 
 
